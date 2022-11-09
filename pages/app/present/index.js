@@ -16,7 +16,11 @@ export default function Present() {
 	});
 	const getDuration = () => {
 		var dur = moment.duration(moment().diff(moment(status.check_in)));
-		return `${parseInt(dur.asHours())}H - ${parseInt(dur.asMinutes())}M`;
+		const hour = parseInt(dur.asMinutes() / 60);
+		const minute = parseInt(
+			((dur.asMinutes() / 60).toFixed(2) - hour) * 10
+		);
+		return `${hour}H - ${minute}M`;
 	};
 
 	const updateStatus = () => {
