@@ -17,7 +17,7 @@ export default function Home() {
 	setInterval(handleTimer, 1000);
 
 	useEffect(() => {
-		router.replace("/app/login");
+		if (time == 0) router.replace("/app/login");
 	}, [time]);
 
 	return (

@@ -1,7 +1,9 @@
 import {
+	Backdrop,
 	Button,
 	Card,
 	CardContent,
+	CircularProgress,
 	Container,
 	Link,
 	Stack,
@@ -17,6 +19,7 @@ import { publicApi } from "../../../helpers/client/api_client";
 export default function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isLoading, setLoading] = useState(false);
 
 	const router = useRouter();
 
@@ -36,12 +39,15 @@ export default function Login() {
 	};
 
 	const handleSubmit = (e) => {
+		setLoading(true);
 		publicApi("/api/login", { username: username, password: password })
 			.then((res) => {
+				setLoading(false);
 				localStorage.setItem("token", res.token);
 				router.replace("/app/present");
 			})
 			.catch((e) => {
+				setLoading(false);
 				console.log(e);
 				toast.error("Username atau Password Salah", {
 					position: "top-center",
@@ -59,6 +65,15 @@ export default function Login() {
 	return (
 		<Container>
 			<ToastContainer />
+			<Backdrop
+				sx={{
+					color: "#fff",
+					zIndex: (theme) => theme.zIndex.drawer + 1,
+				}}
+				open={isLoading}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 			<Card sx={{ marginTop: "50%" }}>
 				<CardContent>
 					<Stack spacing={3}>
