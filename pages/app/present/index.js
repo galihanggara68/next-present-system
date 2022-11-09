@@ -1,5 +1,12 @@
 import { TimerRounded } from "@mui/icons-material";
-import { Button, Grid, Paper, Typography } from "@mui/material";
+import {
+	Backdrop,
+	Button,
+	CircularProgress,
+	Grid,
+	Paper,
+	Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PresentAppBar from "../../../global_components/appbar";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +21,7 @@ export default function Present() {
 		check_in: null,
 		check_out: null,
 	});
+	const [isLoading, setLoading] = useState(false);
 	const getDuration = () => {
 		var dur = moment.duration(moment().diff(moment(status.check_in)));
 		const hour = parseInt(dur.asMinutes() / 60);
@@ -57,12 +65,14 @@ export default function Present() {
 	);
 
 	const handleClick = () => {
+		setLoading(true);
 		privateApi(
 			!status.check_in
 				? "/api/auth/present/checkin"
 				: "/api/auth/present/checkout"
 		)
 			.then((res) => {
+				setLoading(false);
 				toast.success("Berhasil", {
 					position: "top-center",
 					autoClose: 5000,
@@ -76,6 +86,7 @@ export default function Present() {
 				updateStatus();
 			})
 			.catch((e) => {
+				setLoading(false);
 				toast.error("Gagal check in", {
 					position: "top-center",
 					autoClose: 5000,
@@ -103,6 +114,15 @@ export default function Present() {
 	return (
 		<div>
 			<PresentAppBar />
+			<Backdrop
+				sx={{
+					color: "#fff",
+					zIndex: (theme) => theme.zIndex.drawer + 1,
+				}}
+				open={isLoading}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 			<ToastContainer />
 			<Grid
 				sx={{ marginTop: "20%" }}
@@ -148,11 +168,16 @@ export default function Present() {
 						<Button
 							variant="contained"
 							fullWidth
+							color={
+								status && !status.check_in
+									? "primary"
+									: "secondary"
+							}
 							onClick={handleClick}
 							disabled={status.check_in && status.check_out}
 						>
 							<Typography sx={{ fontSize: "1.5rem" }}>
-								{status && status.duration == "0H - 0M"
+								{status && !status.check_in
 									? "Check-In"
 									: "Check-Out"}
 							</Typography>

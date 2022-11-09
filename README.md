@@ -4,7 +4,13 @@ This is a damn simple present system built using Next.js
 
 First setup mongodb database on your environment, and configure the url in `.env` file
 
-Second, run the development server:
+Second, install packages and run the development server:
+
+```bash
+npm install
+# or
+yarn install
+```
 
 ```bash
 npm run dev

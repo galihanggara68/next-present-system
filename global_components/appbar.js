@@ -8,7 +8,8 @@ import {
 	Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { privateApi } from "../helpers/client/api_client";
 
 export default function PresentAppBar() {
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +25,14 @@ export default function PresentAppBar() {
 		console.log(e);
 		router.push(e.target.id == "profile" ? "/app/profile" : "/app/login");
 	};
+
+	useEffect(() => {
+		privateApi("/api/auth/whoami")
+			.then((res) => {})
+			.catch((e) => {
+				router.replace("/app/login");
+			});
+	}, []);
 
 	return (
 		<AppBar>
