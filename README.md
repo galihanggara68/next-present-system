@@ -2,7 +2,9 @@ This is a damn simple present system built using Next.js
 
 ## Getting Started
 
-First, run the development server:
+First setup mongodb database on your environment, and configure the url in `.env` file
+
+Second, run the development server:
 
 ```bash
 npm run dev
