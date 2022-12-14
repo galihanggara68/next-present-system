@@ -22,7 +22,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.38",
+    "moment-timezone": "^0.5.39",
     "mongodb": "^4.11.0",
     "mongodb-client-encryption": "^2.3.0",
     "mongoose": "^6.7.2",
